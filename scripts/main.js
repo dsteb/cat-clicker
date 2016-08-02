@@ -26,6 +26,7 @@
     var link = document.createElement('a');
     link.href = '#';
     link.textContent = name;
+    this.link = link;
     link.addEventListener('click', this.onSelect.bind(this));
     li.appendChild(link);
     $('#cat-list').appendChild(li);
@@ -37,6 +38,7 @@
       currentCat.onUnselect();
     }
     currentCat = this;
+    this.link.className += ' selected';
     var cat = this;
     $('.cat-name').forEach(function(el) {
       el.textContent = cat.name;
@@ -53,6 +55,7 @@
 
   Cat.prototype.onUnselect = function() {
     $('#cat-img').removeEventListener('click', this.clickHandler);
+    this.link.className = this.link.className.replace('selected', '');
   };
 
   new Cat('Васька', 'kitty').onSelect();
