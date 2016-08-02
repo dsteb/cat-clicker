@@ -3,11 +3,20 @@
   <head>
     <meta charset="utf-8">
     <title>Cat clicker</title>
-    <link rel="stylesheet" href="styles/main.css" >
+    <link rel="stylesheet" href="styles/main.css">
   </head>
   <body>
-    <h1>Click these cats!</h1>
-    <div id="cats" class="flex">
+    <h1>Cat clicker!</h1>
+    <div class="flex">
+      <section class="cat-list">
+        <h2>Cat list</h2>
+        <ul id="cat-list"></ul>
+      </section>
+      <section class="cat">
+        <h3>Click <span class="cat-name">{0}</span>!</h3>
+        <div><span class="cat-name">{0}</span> counter: <em id="cat-counter">0</em></div>
+        <img id="cat-img" src="" class="clickable img-responsive">
+      </section>
     </div>
     <script src="scripts/main.js"></script>
   </body>

@@ -1,7 +1,10 @@
-var $ = document.querySelector.bind(document);
-
 (function() {
   'use strict';
+
+  var $ = function(selector) {
+    var elements = document.querySelectorAll(selector);
+    return elements.length === 1 ? elements[0] : elements;
+  };
 
   if (!String.prototype.format) {
     String.prototype.format = function() {
@@ -12,54 +15,49 @@ var $ = document.querySelector.bind(document);
     };
   }
 
-  var Cat = function(name) {
+  var currentCat = null;
+
+  var Cat = function(name, imageName) {
     this.name = name;
-    this.img = 'images/{0}.jpg'.format(name.toLowerCase());
+    this.img = 'images/{0}.jpg'.format(imageName);
+    this.counter = 0;
 
-    var container = document.createElement('div');
-    container.className += 'cat';
-
-    var headerEl = document.createElement('h2');
-    var header = 'Click {0}!'.format(name);
-    headerEl.innerText = header;
-
-    var img = document.createElement('img');
-    img.className += 'img-responsive clickable';
-    img.id = name.toLowerCase() + '-img';
-    img.src = this.img;
-    img.alt = 'Kitty ' + name;
-    img.title = 'Click me please!';
-
-    var counterBlock = document.createElement('div');
-    counterBlock.innerText = '{0} clicker: '.format(name);
-
-    var counter = 0;
-    var counterEl = document.createElement('em');
-    counterEl.innerText = counter;
-
-    img.addEventListener('click', function() {
-      counterEl.innerText = ++counter;
-    });
-
-    counterBlock.appendChild(counterEl);
-
-    container.appendChild(headerEl);
-    container.appendChild(img);
-    container.appendChild(counterBlock);
-
-    $('#cats').appendChild(container);
+    var li = document.createElement('li');
+    var link = document.createElement('a');
+    link.href = '#';
+    link.textContent = name;
+    link.addEventListener('click', this.onSelect.bind(this));
+    li.appendChild(link);
+    $('#cat-list').appendChild(li);
   };
 
-  new Cat('Gioa');
-  new Cat('Bruno');
-  // var gioaCounter = 0;
-  // $('#gioa-img').addEventListener('click', function() {
-  //   $('#gioa-counter').innerText = ++gioaCounter;
-  // });
-  //
-  // var brunoCounter = 0;
-  // $('#bruno-img').addEventListener('click', function() {
-  //   $('#bruno-counter').innerText = ++brunoCounter;
-  // });
+  Cat.prototype.onSelect = function() {
+    if (currentCat === this) return;
+    if (currentCat) {
+      currentCat.onUnselect();
+    }
+    currentCat = this;
+    var cat = this;
+    $('.cat-name').forEach(function(el) {
+      el.textContent = cat.name;
+    });
+    $('#cat-counter').textContent = this.counter;
+    var img = $('#cat-img');
+    img.src = this.img;
+    $('#cat-counter').textContent = this.counter;
+    this.clickHandler = function() {
+      $('#cat-counter').textContent = ++cat.counter;
+    };
+    img.addEventListener('click', this.clickHandler);
+  };
 
+  Cat.prototype.onUnselect = function() {
+    $('#cat-img').removeEventListener('click', this.clickHandler);
+  };
+
+  new Cat('Васька', 'kitty').onSelect();
+  new Cat('Бруно', 'hidden-cat');
+  new Cat('Тася', 'tay-cat');
+  new Cat('Тося', 'bold-cat');
+  new Cat('Жужу', 'black-white');
 })();

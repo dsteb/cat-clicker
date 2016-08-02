@@ -7,6 +7,14 @@
   justify-content: space-between;
 }
 
+.cat-list {
+  width: 30;
+}
+
+.cat {
+  width: 70%;
+}
+
 .img-responsive {
   width: 100%;
 }
