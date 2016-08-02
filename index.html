@@ -6,9 +6,19 @@
     <link rel="stylesheet" href="styles/main.css" >
   </head>
   <body>
-    <h1>Click this cat!</h1>
-    <img id="catImage" class="clickable" src="images/cat.jpg" alt="Kitty" title="Click me pls!">
-    <div>Cat clicker: <span id="counter">0</span></div>
+    <h1>Click these cats!</h1>
+    <div class="flex">
+      <div class="cat">
+        <h2>Gioa</h2>
+        <img id="gioa-img" class="img-responsive clickable" src="images/gioa.jpg" alt="Kitty Gioa" title="Click Gioa pls!">
+        <div>Gioa clicker: <span id="gioa-counter">0</span></div>
+      </div>
+      <div class="cat" style="width:49%;">
+        <h2>Bruno</h2>
+        <img id="bruno-img" class="img-responsive clickable" src="images/bruno.jpg" alt="Kitty Bruno" title="Click Bruno pls!">
+        <div>Bruno clicker: <span id="bruno-counter">0</span></div>
+      </div>
+    </div>
     <script src="scripts/main.js"></script>
   </body>
 </html>

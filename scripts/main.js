@@ -3,9 +3,14 @@ var $ = document.querySelector.bind(document);
 (function() {
   'use strict';
 
-  var counter = 0;
-
-  $('#catImage').addEventListener('click', function() {
-    $('#counter').innerText = ++counter;
+  var gioaCounter = 0;
+  $('#gioa-img').addEventListener('click', function() {
+    $('#gioa-counter').innerText = ++gioaCounter;
   });
+
+  var brunoCounter = 0;
+  $('#bruno-img').addEventListener('click', function() {
+    $('#bruno-counter').innerText = ++brunoCounter;
+  });
+
 })();
