@@ -74,6 +74,10 @@
       cat.image = newImage;
       cat.counter = newCounter;
       catView.render(cat);
+    },
+    closeAdmin: function() {
+      adminView.hide();
+      adminView.render(model.currentCat);
     }
   };
 
@@ -123,9 +127,13 @@
         var newCounter = parseInt($('#cat-counter-input').value);
         octopus.updateCurrentCat(newName, newImage, newCounter);
       });
+      $('#admin-cancel-btn').addEventListener('click', octopus.closeAdmin);
     },
     show: function() {
       $('#admin-section').style = '';
+    },
+    hide: function() {
+      $('#admin-section').style = 'display: none;';
     },
     render: function(cat) {
       $('#cat-name-input').value = cat.name;
