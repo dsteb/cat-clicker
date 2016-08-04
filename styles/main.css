@@ -11,6 +11,11 @@ a:hover {
   justify-content: space-between;
 }
 
+.block {
+  display: block;
+  padding: 10px;
+}
+
 .cat-list {
   width: 30;
 }

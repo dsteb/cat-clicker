@@ -20,35 +20,37 @@
     cats: [
       {
         name: 'Васька',
-        imageName: 'kitty',
+        image: 'images/kitty.jpg',
         counter: 0
       }, {
         name: 'Бруно',
-        imageName: 'hidden-cat',
+        image: 'images/hidden-cat.jpg',
         counter: 0
       }, {
         name: 'Тася',
-        imageName: 'tay-cat',
+        image: 'images/tay-cat.jpg',
         counter: 0
       }, {
         name: 'Тося',
-        imageName: 'bold-cat',
+        image: 'images/bold-cat.jpg',
         counter: 0
       }, {
         name: 'Жужу',
-        imageName: 'black-white',
+        image: 'images/black-white.jpg',
         counter: 0
-      }]
+      }],
   };
 
   var octopus = {
     init: function() {
       catListView.init();
-      $('#cat-img').addEventListener('click', octopus.increaseCounter);
+      $('#cat-image').addEventListener('click', octopus.increaseCounter);
       model.currentCat = model.cats[0];
       catView.render(model.currentCat);
+      adminView.render(model.currentCat);
       var target = $('#cat-list > li:first-child > a');
       catListView.select(target);
+      adminView.init();
     },
     getCats: function() {
       return model.cats;
@@ -58,12 +60,20 @@
       if (currentCat) {
         ++currentCat.counter;
         catView.render(currentCat);
+        adminView.render(currentCat);
       }
     },
     setCurrentCat: function(cat) {
       if (model.currentCat === cat) return false;
       model.currentCat = cat;
       return true;
+    },
+    updateCurrentCat: function(newName, newImage, newCounter) {
+      var cat = model.currentCat;
+      cat.name = newName;
+      cat.image = newImage;
+      cat.counter = newCounter;
+      catView.render(cat);
     }
   };
 
@@ -80,6 +90,7 @@
             if (octopus.setCurrentCat(cat)) {
               catView.render(cat);
               catListView.select(e.target);
+              adminView.render(cat);
             }
           };
         })(cat));
@@ -99,7 +110,27 @@
         el.textContent = cat.name;
       });
       $('#cat-counter').textContent = cat.counter;
-      $('#cat-img').src = 'images/{0}.jpg'.format(cat.imageName);
+      $('#cat-image').src = cat.image;
+    }
+  };
+
+  var adminView = {
+    init: function() {
+      $('#admin-btn').addEventListener('click', adminView.show);
+      $('#admin-save-btn').addEventListener('click', function() {
+        var newName = $('#cat-name-input').value;
+        var newImage = $('#cat-image-input').value;
+        var newCounter = parseInt($('#cat-counter-input').value);
+        octopus.updateCurrentCat(newName, newImage, newCounter);
+      });
+    },
+    show: function() {
+      $('#admin-section').style = '';
+    },
+    render: function(cat) {
+      $('#cat-name-input').value = cat.name;
+      $('#cat-image-input').value = cat.image;
+      $('#cat-counter-input').value = cat.counter;
     }
   };
 

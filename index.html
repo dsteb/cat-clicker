@@ -7,6 +7,15 @@
   </head>
   <body>
     <h1>Cat clicker!</h1>
+    <section id="admin-section" style="display: none;">
+      <h3>Admin section</h3>
+      <form>
+        <label class="block">Name: <input id="cat-name-input"></label>
+        <label class="block">URL: <input id="cat-image-input"></label>
+        <label class="block">Click counter: <input id="cat-counter-input" type="number"></label>
+        <button id="admin-save-btn">Save</button>
+      </form>
+    </section>
     <div class="flex">
       <section class="cat-list">
         <h2>Cat list</h2>
@@ -14,10 +23,11 @@
       </section>
       <section class="cat">
         <h3>Click <span class="cat-name">{0}</span>!</h3>
-        <div><span class="cat-name">{0}</span> counter: <em id="cat-counter">0</em></div>
-        <img id="cat-img" src="" class="clickable img-responsive">
+        <div><span class="cat-name">{0}</span> click counter: <em id="cat-counter">0</em></div>
+        <img id="cat-image" src="" class="clickable img-responsive">
       </section>
     </div>
+    <button id="admin-btn">Admin</button>
     <script src="scripts/main.js"></script>
   </body>
 </html>
