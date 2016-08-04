@@ -51,16 +51,19 @@
       });
       this.currentCat = model.cats[0];
       view.cat.render();
+      var target = $('#cat-list > li:first-child > a');
+      view.catList.select(target);
       return this;
     },
     getCats: function() {
       return model.cats;
     },
     currentCat: null,
-    onCatSelect: function() {
+    onCatSelect: function(e) {
       if (octopus.currentCat === this) return;
       octopus.currentCat = this;
       view.cat.render();
+      view.catList.select(e.target);
     }
   };
 
@@ -77,6 +80,10 @@
           li.appendChild(link);
           $('#cat-list').appendChild(li);
         });
+      },
+      select: function(a) {
+        $('.selected').className = '';
+        a.className = 'selected';
       }
     },
     cat: {
