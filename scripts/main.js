@@ -16,6 +16,7 @@
   }
 
   var model = {
+    currentCat: null,
     cats: [
       {
         name: 'Васька',
@@ -42,60 +43,63 @@
 
   var octopus = {
     init: function() {
-      view.catList.init();
-      $('#cat-img').addEventListener('click', function() {
-        if (octopus.currentCat) {
-          var counter = ++octopus.currentCat.counter;
-          view.cat.render();
-        }
-      });
-      this.currentCat = model.cats[0];
-      view.cat.render();
+      catListView.init();
+      $('#cat-img').addEventListener('click', octopus.increaseCounter);
+      model.currentCat = model.cats[0];
+      catView.render(model.currentCat);
       var target = $('#cat-list > li:first-child > a');
-      view.catList.select(target);
-      return this;
+      catListView.select(target);
     },
     getCats: function() {
       return model.cats;
     },
-    currentCat: null,
-    onCatSelect: function(e) {
-      if (octopus.currentCat === this) return;
-      octopus.currentCat = this;
-      view.cat.render();
-      view.catList.select(e.target);
+    increaseCounter: function() {
+      var currentCat = model.currentCat;
+      if (currentCat) {
+        ++currentCat.counter;
+        catView.render(currentCat);
+      }
+    },
+    setCurrentCat: function(cat) {
+      if (model.currentCat === cat) return false;
+      model.currentCat = cat;
+      return true;
     }
   };
 
-  var view = {
-    catList: {
-      init: function() {
-        var cats = octopus.getCats();
-        cats.forEach(function(cat) {
-          var li = document.createElement('li');
-          var link = document.createElement('a');
-          link.href = '#';
-          link.textContent = cat.name ;
-          link.addEventListener('click', octopus.onCatSelect.bind(cat));
-          li.appendChild(link);
-          $('#cat-list').appendChild(li);
-        });
-      },
-      select: function(a) {
-        $('.selected').className = '';
-        a.className = 'selected';
-      }
+  var catListView = {
+    init: function() {
+      var cats = octopus.getCats();
+      cats.forEach(function(cat) {
+        var li = document.createElement('li');
+        var link = document.createElement('a');
+        link.href = '#';
+        link.textContent = cat.name ;
+        link.addEventListener('click', (function(cat) {
+          return function(e) {
+            if (octopus.setCurrentCat(cat)) {
+              catView.render(cat);
+              catListView.select(e.target);
+            }
+          };
+        })(cat));
+        li.appendChild(link);
+        $('#cat-list').appendChild(li);
+      });
     },
-    cat: {
-      render: function(cat) {
-        if (!cat) cat = octopus.currentCat;
-        $('.cat-name').forEach(function(el) {
-          el.textContent = cat.name;
-        });
-        $('#cat-counter').textContent = cat.counter;
-        var img = $('#cat-img');
-        img.src = 'images/{0}.jpg'.format(cat.imageName);
-      }
+    select: function(a) {
+      $('.selected').className = '';
+      a.className = 'selected';
+    }
+  };
+
+  var catView = {
+    render: function(cat) {
+      $('.cat-name').forEach(function(el) {
+        el.textContent = cat.name;
+      });
+      $('#cat-counter').textContent = cat.counter;
+      $('#cat-img').src = 'images/{0}.jpg'.format(cat.imageName);
     }
   };
 
