@@ -15,52 +15,82 @@
     };
   }
 
-  var currentCat = null;
-
-  var Cat = function(name, imageName) {
-    this.name = name;
-    this.img = 'images/{0}.jpg'.format(imageName);
-    this.counter = 0;
-
-    var li = document.createElement('li');
-    var link = document.createElement('a');
-    link.href = '#';
-    link.textContent = name;
-    this.link = link;
-    link.addEventListener('click', this.onSelect.bind(this));
-    li.appendChild(link);
-    $('#cat-list').appendChild(li);
+  var model = {
+    cats: [
+      {
+        name: 'Васька',
+        imageName: 'kitty',
+        counter: 0
+      }, {
+        name: 'Бруно',
+        imageName: 'hidden-cat',
+        counter: 0
+      }, {
+        name: 'Тася',
+        imageName: 'tay-cat',
+        counter: 0
+      }, {
+        name: 'Тося',
+        imageName: 'bold-cat',
+        counter: 0
+      }, {
+        name: 'Жужу',
+        imageName: 'black-white',
+        counter: 0
+      }]
   };
 
-  Cat.prototype.onSelect = function() {
-    if (currentCat === this) return;
-    if (currentCat) {
-      currentCat.onUnselect();
+  var octopus = {
+    init: function() {
+      view.catList.init();
+      $('#cat-img').addEventListener('click', function() {
+        if (octopus.currentCat) {
+          var counter = ++octopus.currentCat.counter;
+          view.cat.render();
+        }
+      });
+      this.currentCat = model.cats[0];
+      view.cat.render();
+      return this;
+    },
+    getCats: function() {
+      return model.cats;
+    },
+    currentCat: null,
+    onCatSelect: function() {
+      if (octopus.currentCat === this) return;
+      octopus.currentCat = this;
+      view.cat.render();
     }
-    currentCat = this;
-    this.link.className += ' selected';
-    var cat = this;
-    $('.cat-name').forEach(function(el) {
-      el.textContent = cat.name;
-    });
-    $('#cat-counter').textContent = this.counter;
-    var img = $('#cat-img');
-    img.src = this.img;
-    $('#cat-counter').textContent = this.counter;
-    this.clickHandler = function() {
-      $('#cat-counter').textContent = ++cat.counter;
-    };
-    img.addEventListener('click', this.clickHandler);
   };
 
-  Cat.prototype.onUnselect = function() {
-    $('#cat-img').removeEventListener('click', this.clickHandler);
-    this.link.className = this.link.className.replace('selected', '');
+  var view = {
+    catList: {
+      init: function() {
+        var cats = octopus.getCats();
+        cats.forEach(function(cat) {
+          var li = document.createElement('li');
+          var link = document.createElement('a');
+          link.href = '#';
+          link.textContent = cat.name ;
+          link.addEventListener('click', octopus.onCatSelect.bind(cat));
+          li.appendChild(link);
+          $('#cat-list').appendChild(li);
+        });
+      }
+    },
+    cat: {
+      render: function(cat) {
+        if (!cat) cat = octopus.currentCat;
+        $('.cat-name').forEach(function(el) {
+          el.textContent = cat.name;
+        });
+        $('#cat-counter').textContent = cat.counter;
+        var img = $('#cat-img');
+        img.src = 'images/{0}.jpg'.format(cat.imageName);
+      }
+    }
   };
 
-  new Cat('Васька', 'kitty').onSelect();
-  new Cat('Бруно', 'hidden-cat');
-  new Cat('Тася', 'tay-cat');
-  new Cat('Тося', 'bold-cat');
-  new Cat('Жужу', 'black-white');
+  octopus.init();
 })();
