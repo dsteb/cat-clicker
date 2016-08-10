@@ -7,28 +7,17 @@
   </head>
   <body>
     <h1>Cat clicker!</h1>
-    <section id="admin-section" style="display: none;">
-      <h3>Admin section</h3>
-      <form>
-        <label class="block">Name: <input id="cat-name-input"></label>
-        <label class="block">URL: <input id="cat-image-input"></label>
-        <label class="block">Click counter: <input id="cat-counter-input" type="number"></label>
-        <button id="admin-cancel-btn">Cancel</button>
-        <button id="admin-save-btn">Save</button>
-      </form>
-    </section>
     <div class="flex">
-      <section class="cat-list">
-        <h2>Cat list</h2>
-        <ul id="cat-list"></ul>
-      </section>
       <section class="cat">
-        <h3>Click <span class="cat-name">{0}</span>!</h3>
-        <div><span class="cat-name">{0}</span> click counter: <em id="cat-counter">0</em></div>
-        <img id="cat-image" src="" class="clickable img-responsive">
+        <h3>Click <span data-bind="text: cat.name"></span>!</h3>
+        <div>
+          <span data-bind="text: cat.name"></span> click counter:
+          <em data-bind="text: cat.counter"></em>
+        </div>
+        <img src="" class="clickable img-responsive" data-bind="attr: {src: cat.imageSrc}, click: incrementClickCounter">
       </section>
     </div>
-    <button id="admin-btn">Admin</button>
+    <script src="scripts/knockout-3.4.0.js"></script>
     <script src="scripts/main.js"></script>
   </body>
 </html>
