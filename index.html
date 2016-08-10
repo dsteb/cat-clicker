@@ -15,6 +15,10 @@
           <em data-bind="text: cat.counter"></em>
         </div>
         <img src="" class="clickable img-responsive" data-bind="attr: {src: cat.imageSrc}, click: incrementClickCounter">
+        <h4>Nicknames</h4>
+        <ul data-bind="foreach: cat.nicknames">
+          <li data-bind="text: $data"></li>
+        </ul>
       </section>
     </div>
     <script src="scripts/knockout-3.4.0.js"></script>

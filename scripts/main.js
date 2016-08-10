@@ -19,7 +19,8 @@
     this.cat = {
       name: 'ЖуЖу',
       imageSrc: 'images/black-white.jpg',
-      counter: ko.observable(0)
+      counter: ko.observable(0),
+      nicknames: ko.observableArray(['Gioa', 'Джоя', 'Жопа'])
     };
     this.incrementClickCounter = function() {
       this.cat.counter(this.cat.counter() + 1);
